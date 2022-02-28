@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         showElevation: false,
         onItemSelected: (index) => setState(() {
           _selectedIndex = index;
+
           _pageController.animateToPage(index,
               duration: Duration(milliseconds: 300), curve: Curves.ease);
         }),

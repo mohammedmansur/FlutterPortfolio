@@ -1,15 +1,15 @@
 class ProfileInfo {
-  String? name;
+  String? name; //done
   String? uid; // the uid from firebase auth service
-  String? email;
+  String? email; //done
   String? github;
   String? stackOverflow;
   String? linkedIn;
-  String? title;
-  String? bio;
-  String? location;
+  String? title; //done
+  String? bio; //done
+  String? location; //done
   String? imgUrl; // Firebase Storage
-  String? phoneNumber;
+  String? phoneNumber; //dont
   bool? isLookingForAJob; //if the user is looking for a job
   bool? isApproved;
 

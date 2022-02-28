@@ -41,6 +41,7 @@ dependencies:
   iconsax: ^0.0.8
   font_awesome_flutter: ^9.2.0
   lottie: ^1.2.2
+  image_picker: ^0.8.4+10
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +68,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/
-     - assets/lottieJSON/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

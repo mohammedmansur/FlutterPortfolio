@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:portfolio/Src/CreateProfile/ProfileForm.dart';
 import 'package:portfolio/Src/Home/HomeScreen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main(List<String> args) {
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(Routing());
 }
 
@@ -32,25 +34,23 @@ class Start extends StatefulWidget {
 }
 
 class _StartState extends State<Start> {
+  final _key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF6DEC8),
+      backgroundColor: Colors.black,
       body: Container(
         width: double.infinity,
         child: Column(
+          key: _key,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SizedBox(
-              height: 50,
+              height: 40,
             ),
-            FadeInUp(
-                duration: Duration(milliseconds: 1500),
-                child: Image.network(
-                  'https://cdn.dribbble.com/users/3484830/screenshots/16787618/media/b134e73ef667b926c76d8ce3f962dba2.gif',
-                  fit: BoxFit.cover,
-                )),
+            Lottie.asset('assets/start.json',
+                fit: BoxFit.fill, alignment: Alignment.center),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.0),
               child: Column(
@@ -60,9 +60,11 @@ class _StartState extends State<Start> {
                     delay: Duration(milliseconds: 1000),
                     duration: Duration(milliseconds: 1000),
                     child: Text(
-                      "Finding Job now more easy",
+                      "Finding Good Develeper \nor Designer \nnow more easy",
                       style: GoogleFonts.robotoSlab(
-                          fontSize: 36, fontWeight: FontWeight.w600),
+                          fontSize: 36,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     ),
                   ),
                   SizedBox(
@@ -72,11 +74,11 @@ class _StartState extends State<Start> {
                     delay: Duration(milliseconds: 1200),
                     duration: Duration(milliseconds: 1000),
                     child: Text(
-                      "Are you want to prove your skill \neasily in the professional way?",
+                      "or you want to prove your skill \neasily in the professional way?",
                       style: GoogleFonts.robotoSlab(
                           fontSize: 16,
                           height: 1.8,
-                          color: Colors.grey.shade700),
+                          color: Color.fromARGB(255, 255, 219, 219)),
                     ),
                   ),
                 ],
@@ -94,7 +96,7 @@ class _StartState extends State<Start> {
                         onPressed: () {
                           Navigator.of(context).pushReplacementNamed('/create');
                         },
-                        color: Colors.black,
+                        color: Color.fromARGB(255, 201, 74, 74),
                         height: 45,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
@@ -117,7 +119,7 @@ class _StartState extends State<Start> {
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               height: 1.8,
-                              color: Colors.black),
+                              color: Colors.white),
                         )),
                   ],
                 ),
