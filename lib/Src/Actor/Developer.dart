@@ -37,96 +37,79 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Application Developer',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-      ),
-      body: Container(
-        child: CarouselSlider(
-            carouselController: _carouselController,
-            options: CarouselOptions(
-                height: double.infinity,
-                aspectRatio: 16 / 9,
-                viewportFraction: 0.70,
-                enlargeCenterPage: true,
-                pageSnapping: true,
-                onPageChanged: (index, reason) {
+    return CarouselSlider(
+        carouselController: _carouselController,
+        options: CarouselOptions(
+            height: 500,
+            aspectRatio: 16 / 9,
+            viewportFraction: 0.70,
+            enlargeCenterPage: true,
+            // pageSnapping: true,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            }),
+        items: _products.map((movie) {
+          return Builder(
+            builder: (BuildContext context) {
+              return GestureDetector(
+                onTap: () {
                   setState(() {
-                    _current = index;
+                    if (_selectedIndex == movie) {
+                      _selectedIndex = {};
+                    } else {
+                      _selectedIndex = movie;
+                    }
                   });
-                }),
-            items: _products.map((movie) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (_selectedIndex == movie) {
-                          _selectedIndex = {};
-                        } else {
-                          _selectedIndex = movie;
-                        }
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Column(
                           children: [
-                            Column(
-                              children: [
-                                Container(
-                                  height: 320,
-                                  margin: EdgeInsets.only(top: 10),
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Image.network(movie['image'],
-                                      fit: BoxFit.cover),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  movie['title'],
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  movie['description'],
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey.shade600),
-                                ),
-                              ],
+                            Container(
+                              height: 320,
+                              margin: EdgeInsets.only(top: 10),
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Image.network(movie['image'],
+                                  fit: BoxFit.cover),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              movie['title'],
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              movie['description'],
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey.shade600),
                             ),
                           ],
                         ),
-                      ),
+                      ],
                     ),
-                  );
-                },
+                  ),
+                ),
               );
-            }).toList()),
-      ),
-    );
+            },
+          );
+        }).toList());
   }
 }

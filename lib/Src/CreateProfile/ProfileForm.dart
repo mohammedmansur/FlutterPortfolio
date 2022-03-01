@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:portfolio/Src/Service/Service.dart';
 
 class ProfileForm extends StatefulWidget {
   const ProfileForm({Key? key}) : super(key: key);
@@ -14,6 +15,8 @@ class ProfileForm extends StatefulWidget {
 }
 
 class _ProfileFormState extends State<ProfileForm> {
+  FirestoreService firestoreService = FirestoreService();
+
   final _key = GlobalKey<FormState>();
   final _fullNameController = TextEditingController();
   final _emailController = TextEditingController();
