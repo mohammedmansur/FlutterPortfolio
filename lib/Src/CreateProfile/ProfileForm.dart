@@ -345,12 +345,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             child: Text(
                           _birthDate == null
                               ? 'Click to The Icon Pick Your Birth date'
-                              : 'BirthDay:  ' +
-                                  _birthDate!.year.toString() +
-                                  '/' +
-                                  _birthDate!.month.toString() +
-                                  '/' +
-                                  _birthDate!.day.toString(),
+                              : date!,
                           style: TextStyle(fontSize: 15, color: Colors.white),
                         )),
                       ],
@@ -838,6 +833,18 @@ class _ProfileFormState extends State<ProfileForm> {
                                                   bio: _bioController.text,
                                                   isApproved: false,
                                                 ));
+                                                _fullNameController.clear();
+                                                _locationController.clear();
+                                                _linkedinController.clear();
+                                                _emailController.clear();
+                                                _phoneController.clear();
+                                                _categoryController.clear();
+                                                _stackOverflowController
+                                                    .clear();
+                                                _githubController.clear();
+                                                _portfolioController.clear();
+                                                _bioController.clear();
+                                                date = null;
                                                 Navigator.pop(context);
                                               },
                                               child: Text('Submit')),
