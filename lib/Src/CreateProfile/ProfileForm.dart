@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:portfolio/Src/Data/ProfileInfo.dart';
 import 'package:portfolio/Src/Service/Service.dart';
 
 class ProfileForm extends StatefulWidget {
@@ -31,10 +33,11 @@ class _ProfileFormState extends State<ProfileForm> {
 
   final ImagePicker _imagePicker = ImagePicker();
   XFile? _selectedProfileImg;
-  // final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String? _theDlUrl;
-  bool _isLoading = false;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  String? _proUrl;
+
   String? scanResult;
+  String? date;
 
   int _selectedIndex = 0;
   PageController _pageController = PageController(initialPage: 0);
@@ -112,6 +115,12 @@ class _ProfileFormState extends State<ProfileForm> {
         .then((value) {
       setState(() {
         _birthDate = value!;
+        date = 'BirthDay:  ' +
+            _birthDate!.year.toString() +
+            '/' +
+            _birthDate!.month.toString() +
+            '/' +
+            _birthDate!.day.toString();
       });
     });
   }
@@ -670,7 +679,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     height: 20,
                   ),
                   TextField(
-                    controller: _fullNameController,
+                    controller: _stackOverflowController,
                     style: const TextStyle(color: Colors.white),
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: Colors.white,
@@ -803,8 +812,35 @@ class _ProfileFormState extends State<ProfileForm> {
                                                 child: Text('Cancel'))),
                                         SimpleDialogOption(
                                           child: ElevatedButton(
-                                              onPressed: () {},
-                                              child: Text('Cancel')),
+                                              onPressed: () async {
+                                                await uploadImage();
+                                                await firestoreService
+                                                    .addACar(ProfileInfo(
+                                                  name:
+                                                      _fullNameController.text,
+                                                  email: _emailController.text,
+                                                  github:
+                                                      _githubController.text,
+                                                  birthDate: date,
+                                                  imgUrl: _proUrl,
+                                                  phoneNumber:
+                                                      _phoneController.text,
+                                                  stackOverflow:
+                                                      _stackOverflowController
+                                                          .text,
+                                                  linkedIn:
+                                                      _linkedinController.text,
+                                                  title:
+                                                      _categoryController.text,
+                                                  location:
+                                                      _locationController.text,
+                                                  isLookingForAJob: true,
+                                                  bio: _bioController.text,
+                                                  isApproved: false,
+                                                ));
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('Submit')),
                                         ),
                                       ],
                                     )
@@ -833,5 +869,21 @@ class _ProfileFormState extends State<ProfileForm> {
         ),
       );
     }
+  }
+
+  Future<String?> uploadImage() async {
+    File _theImageFile = File(_selectedProfileImg!.path);
+    try {
+      await _firebaseStorage
+          .ref()
+          .child('Profile/${_fullNameController.value.text}')
+          .putFile(_theImageFile)
+          .then((p) async {
+        _proUrl = await p.ref.getDownloadURL();
+      });
+    } catch (e) {
+      print(e);
+    }
+    return _proUrl;
   }
 }

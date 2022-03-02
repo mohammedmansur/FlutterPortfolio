@@ -6,7 +6,7 @@ class FirestoreService {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   Future<void> addACar(ProfileInfo pro) async {
-    await _firebaseFirestore.collection('cars').add(pro.toMap());
+    await _firebaseFirestore.collection('profile').add(pro.toMap());
   }
 
   // Stream of cars

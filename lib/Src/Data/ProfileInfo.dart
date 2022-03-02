@@ -1,5 +1,6 @@
 class ProfileInfo {
-  String? name; //done
+  String? name;
+  String? birthDate; //done
   String? uid; // the uid from firebase auth service
   String? email; //done
   String? github;
@@ -14,8 +15,8 @@ class ProfileInfo {
   bool? isApproved;
 
   ProfileInfo(
-      {this.uid,
-      this.name,
+      {this.name,
+      this.birthDate,
       this.email,
       this.github,
       this.imgUrl,
@@ -25,13 +26,14 @@ class ProfileInfo {
       this.bio,
       this.isLookingForAJob,
       this.location,
-      this.title});
+      this.title,
+      this.isApproved});
 
   // from map which reads the data from the database
 
   factory ProfileInfo.fromMap(Map<String, dynamic> json) => ProfileInfo(
-        uid: json["uid"],
         name: json["name"],
+        birthDate: json["birthDate"],
         email: json["email"],
         github: json["github"],
         imgUrl: json["imgUrl"],
@@ -42,13 +44,14 @@ class ProfileInfo {
         location: json["location"],
         isLookingForAJob: json["isLookingForAJob"],
         bio: json["bio"],
+        isApproved: json["isApproved"],
       );
 
   // toMap()
   Map<String, dynamic> toMap() => {
-        "uid": uid,
         "name": name,
         "email": email,
+        "birthDate": birthDate,
         "github": github,
         "imgUrl": imgUrl,
         "phoneNumber": phoneNumber,
@@ -58,5 +61,6 @@ class ProfileInfo {
         "location": location,
         "isLookingForAJob": isLookingForAJob,
         "title": title,
+        "isApproved": isApproved,
       };
 }
