@@ -49,12 +49,14 @@ class _ProfileFormState extends State<ProfileForm> {
         backgroundColor: Colors.black,
         selectedIndex: _selectedIndex,
         showElevation: false,
-        onItemSelected: (index) => setState(() {
-          _selectedIndex = index;
+        onItemSelected: (index) {
+          setState(() {
+            _selectedIndex = index;
 
-          _pageController.animateToPage(index,
-              duration: Duration(milliseconds: 300), curve: Curves.ease);
-        }),
+            _pageController.animateToPage(index,
+                duration: Duration(milliseconds: 300), curve: Curves.ease);
+          });
+        },
         items: [
           BottomNavyBarItem(
             icon: const Icon(
@@ -596,7 +598,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(0.0),
                       labelText: 'LinkedIn',
-                      hintText: 'Profile Link',
+                      hintText: 'LinkedIn Link',
                       labelStyle: const TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 14.0,
@@ -638,7 +640,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(0.0),
                       labelText: 'GitHub',
-                      hintText: 'Profile Link',
+                      hintText: 'GitHub Link',
                       labelStyle: const TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 14.0,
@@ -681,7 +683,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(0.0),
                       labelText: 'StackOverflow',
-                      hintText: 'Profile Link',
+                      hintText: 'StackOverflow Link',
                       labelStyle: const TextStyle(
                         color: Colors.white,
                         fontSize: 14.0,

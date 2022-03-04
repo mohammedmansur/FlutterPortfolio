@@ -1,115 +1,193 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:portfolio/Src/Data/ProfileInfo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ProductCard extends StatefulWidget {
-  const ProductCard({Key? key}) : super(key: key);
-
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key, required this.pro}) : super(key: key);
+  final ProfileInfo pro;
   @override
-  _ProductCardState createState() => _ProductCardState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProductCardState extends State<ProductCard> {
-  int _current = 0;
-  dynamic _selectedIndex = {};
-
-  CarouselController _carouselController = new CarouselController();
-
-  List<dynamic> _products = [
-    {
-      'title': 'Adidas Originals \nby Alexander Wang',
-      'image':
-          'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fGFkaWRhc3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60',
-      'description': 'Limited collection'
-    },
-    {
-      'title': 'Adidas Originals \nby Alexander Wang',
-      'image':
-          'https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2265&q=80',
-      'description': 'Limited collection'
-    },
-    {
-      'title': 'Adidas Originals \nby Alexander Wang',
-      'image':
-          'https://images.unsplash.com/photo-1589188056053-28910dc61d38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2264&q=80',
-      'description': 'Limited collection'
-    }
-  ];
-
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-        carouselController: _carouselController,
-        options: CarouselOptions(
-            height: 500,
-            aspectRatio: 16 / 9,
-            viewportFraction: 0.70,
-            enlargeCenterPage: true,
-            // pageSnapping: true,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _current = index;
-              });
-            }),
-        items: _products.map((movie) {
-          return Builder(
-            builder: (BuildContext context) {
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    if (_selectedIndex == movie) {
-                      _selectedIndex = {};
-                    } else {
-                      _selectedIndex = movie;
-                    }
-                  });
-                },
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              height: 320,
-                              margin: EdgeInsets.only(top: 10),
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Image.network(movie['image'],
-                                  fit: BoxFit.cover),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: <Widget>[
+          CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                expandedHeight: 450,
+                backgroundColor: Colors.black,
+                flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.pin,
+                  background: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(widget.pro.imgUrl!),
+                            fit: BoxFit.cover)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomRight,
+                              colors: [
+                            Colors.black,
+                            Colors.black.withOpacity(.3)
+                          ])),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              widget.pro.name!,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
-                              movie['title'],
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              movie['description'],
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.grey.shade600),
-                            ),
+                            Row(
+                              children: <Widget>[
+                                const Text(
+                                  "60 Project",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 16),
+                                ),
+                                const SizedBox(
+                                  width: 50,
+                                ),
+                                Text(
+                                  widget.pro.isLookingForAJob == true
+                                      ? 'Looking For A job'
+                                      : 'in Work',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 16),
+                                )
+                              ],
+                            )
                           ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              );
-            },
-          );
-        }).toList());
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          widget.pro.bio!,
+                          style:
+                              const TextStyle(color: Colors.grey, height: 1.4),
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        const Text(
+                          "Born",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          widget.pro.birthDate!,
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text(
+                          "City",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          widget.pro.location!,
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text(
+                          "Social Link",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 80,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: <Widget>[
+                              widget.pro.linkedIn != null
+                                  ? _urlLauncherButton(
+                                      url: widget.pro.linkedIn!,
+                                      icon:
+                                          const Icon(FontAwesomeIcons.linkedin))
+                                  : Container(),
+                              widget.pro.github != null
+                                  ? _urlLauncherButton(
+                                      url: widget.pro.github!,
+                                      icon: const Icon(FontAwesomeIcons.github))
+                                  : Container(),
+                              widget.pro.stackOverflow != null
+                                  ? _urlLauncherButton(
+                                      url: widget.pro.stackOverflow!,
+                                      icon: const Icon(
+                                          FontAwesomeIcons.stackOverflow))
+                                  : Container(),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 120,
+                        )
+                      ],
+                    ),
+                  )
+                ]),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _urlLauncherButton({
+    required String url,
+    required Icon icon,
+  }) {
+    return IconButton(
+      onPressed: () async {
+        await canLaunch(url) == true
+            ? launch(url)
+            : debugPrint('can not launch');
+      },
+      icon: icon,
+      color: Colors.white,
+      iconSize: 32,
+    );
   }
 }
