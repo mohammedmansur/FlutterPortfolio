@@ -851,7 +851,8 @@ class _ProfileFormState extends State<ProfileForm> {
                                                 _portfolioController.clear();
                                                 _bioController.clear();
                                                 date = null;
-                                                Navigator.pop(context);
+                                                Navigator.pushNamed(
+                                                    context, '/home');
                                               },
                                               child: Text('Submit')),
                                         ),
