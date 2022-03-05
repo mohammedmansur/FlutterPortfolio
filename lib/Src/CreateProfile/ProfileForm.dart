@@ -766,7 +766,7 @@ class _ProfileFormState extends State<ProfileForm> {
                       MaterialButton(
                         onPressed: () {
                           _pageController.animateToPage(1,
-                              duration: Duration(milliseconds: 300),
+                              duration: Duration(milliseconds: 20),
                               curve: Curves.ease);
                         },
                         height: 45,
