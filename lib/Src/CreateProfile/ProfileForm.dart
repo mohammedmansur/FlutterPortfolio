@@ -54,7 +54,7 @@ class _ProfileFormState extends State<ProfileForm> {
             _selectedIndex = index;
 
             _pageController.animateToPage(index,
-                duration: Duration(milliseconds: 300), curve: Curves.ease);
+                duration: Duration(milliseconds: 20), curve: Curves.ease);
           });
         },
         items: [
