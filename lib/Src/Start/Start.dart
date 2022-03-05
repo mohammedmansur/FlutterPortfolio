@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
+//this for where app is opend for the first time
+
 class Start extends StatefulWidget {
   const Start({Key? key}) : super(key: key);
 
@@ -48,6 +50,7 @@ class _StartState extends State<Start> {
                     height: 10,
                   ),
                   FadeInUp(
+                    // this widget for animating our text
                     delay: Duration(milliseconds: 1200),
                     duration: Duration(milliseconds: 1000),
                     child: Text(

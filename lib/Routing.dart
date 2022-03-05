@@ -14,7 +14,8 @@ class _RoutingState extends State<Routing> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute:
+          '/', //this route is for entire navigating screen in the app we initialize it in here.
       routes: {
         '/': (context) => const Start(),
         '/home': (context) => const HomeScreen(),

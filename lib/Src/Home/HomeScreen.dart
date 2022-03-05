@@ -7,6 +7,8 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:portfolio/Src/Data/ProfileInfo.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+//this page is showing every peron who's info had approved by admin.
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -15,8 +17,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PageController _pageController = PageController(initialPage: 0);
   final _advancedDrawerController = AdvancedDrawerController();
+  CarouselController _carouselController = CarouselController();
+  int _current = 0;
+  dynamic _selectedIndex = {};
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
@@ -110,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
           leading: IconButton(
               onPressed: _handleMenuButtonPressed, icon: Icon(Icons.person)),
         ),
+        // we user this stream to return the data from fire base
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('profile')
@@ -125,70 +130,81 @@ class _HomeScreenState extends State<HomeScreen> {
                 .map((e) =>
                     ProfileInfo.fromMap(e.data() as Map<String, dynamic>))
                 .toList();
-            return CarouselSlider.builder(
-              itemBuilder: (context, index, realIndex) {
-                return GestureDetector(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ProfileScreen(pro: docs[index]))),
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                height: 320,
-                                margin: EdgeInsets.only(top: 10),
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
+            debugPrint(docs.length.toString());
+            return Center(
+              child: CarouselSlider.builder(
+                itemBuilder: (context, index, realIndex) {
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProfileScreen(pro: docs[index]))),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  "Developer",
+                                  style: TextStyle(fontSize: 20),
                                 ),
-                                child: Image.network(docs[index].imgUrl!,
-                                    fit: BoxFit.cover),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                docs[index].name!,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                docs[index].title!,
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.grey.shade600),
-                              ),
-                            ],
-                          ),
-                        ],
+                                Container(
+                                  height: 320,
+                                  margin: EdgeInsets.only(top: 10),
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Image.network(
+                                      docs[index].imgUrl ??
+                                          "https://th.bing.com/th/id/OIP.sVVB9SERkuOQQNu3XP2uFAHaJi?pid=ImgDet&rs=1",
+                                      fit: BoxFit.cover),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  docs[index].name!,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  docs[index].title!,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey.shade600),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-              itemCount: docs.length,
-              carouselController: _carouselController,
-              options: CarouselOptions(
-                  height: 500,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.70,
-                  enlargeCenterPage: true,
-                  pageSnapping: true,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  }),
+                  );
+                },
+                itemCount: docs.length,
+                carouselController: _carouselController,
+                options: CarouselOptions(
+                    height: 500,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 0.70,
+                    enlargeCenterPage: true,
+                    pageSnapping: true,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    }),
+              ),
             );
           },
         ),
@@ -199,8 +215,4 @@ class _HomeScreenState extends State<HomeScreen> {
   void _handleMenuButtonPressed() {
     _advancedDrawerController.showDrawer();
   }
-
-  CarouselController _carouselController = CarouselController();
-  int _current = 0;
-  dynamic _selectedIndex = {};
 }

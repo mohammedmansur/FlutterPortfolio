@@ -1,17 +1,17 @@
 class ProfileInfo {
   String? name;
-  String? birthDate; //done
-  String? uid; // the uid from firebase auth service
-  String? email; //done
+  String? birthDate;
+  String? uid;
+  String? email;
   String? github;
   String? stackOverflow;
   String? linkedIn;
-  String? title; //done
-  String? bio; //done
-  String? location; //done
-  String? imgUrl; // Firebase Storage
-  String? phoneNumber; //dont
-  bool? isLookingForAJob; //if the user is looking for a job
+  String? title;
+  String? bio;
+  String? location;
+  String? imgUrl;
+  String? phoneNumber;
+  bool? isLookingForAJob;
   bool? isApproved;
 
   ProfileInfo(
@@ -47,7 +47,7 @@ class ProfileInfo {
         isApproved: json["isApproved"],
       );
 
-  // toMap()
+// to map use to send a data to firestore database
   Map<String, dynamic> toMap() => {
         "name": name,
         "email": email,

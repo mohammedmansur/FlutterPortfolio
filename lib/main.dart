@@ -4,6 +4,7 @@ import 'package:portfolio/Routing.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value) => print('initialized'));
+  await Firebase.initializeApp().then(
+      (value) => print('initialized')); // for ensure that firebase is connected
   runApp(const Routing());
 }

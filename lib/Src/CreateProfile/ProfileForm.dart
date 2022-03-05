@@ -138,11 +138,12 @@ class _ProfileFormState extends State<ProfileForm> {
               const SizedBox(
                 height: 20,
               ),
-              Lottie.asset('assets/start.json',
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
-                  height: 240,
-                  width: 240),
+              Lottie.asset(
+                'assets/start.json',
+                alignment: Alignment.center,
+                height: 200,
+                width: 200,
+              ),
               const SizedBox(
                 height: 30,
               ),
@@ -485,7 +486,7 @@ class _ProfileFormState extends State<ProfileForm> {
                       MaterialButton(
                         onPressed: () {
                           _pageController.animateToPage(0,
-                              duration: Duration(milliseconds: 300),
+                              duration: Duration(milliseconds: 10),
                               curve: Curves.ease);
                         },
                         height: 45,
@@ -792,9 +793,12 @@ class _ProfileFormState extends State<ProfileForm> {
                                     size: 32,
                                   ),
                                   children: [
-                                    Text(
-                                      'Please Note That if you fill some of the field wrongly your request will not submitted',
-                                      style: TextStyle(fontSize: 22),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Please Note That if you fill some of the field wrongly your request will not submitted',
+                                        style: TextStyle(fontSize: 22),
+                                      ),
                                     ),
                                     Divider(),
                                     Row(
@@ -812,7 +816,7 @@ class _ProfileFormState extends State<ProfileForm> {
                                               onPressed: () async {
                                                 await uploadImage();
                                                 await firestoreService
-                                                    .addACar(ProfileInfo(
+                                                    .addProfile(ProfileInfo(
                                                   name:
                                                       _fullNameController.text,
                                                   email: _emailController.text,
@@ -881,6 +885,9 @@ class _ProfileFormState extends State<ProfileForm> {
   }
 
   Future<String?> uploadImage() async {
+    if (_selectedProfileImg == null) {
+      return null;
+    }
     File _theImageFile = File(_selectedProfileImg!.path);
     try {
       await _firebaseStorage
